@@ -62,10 +62,19 @@ class _HomePageState extends State<HomePage> {
         onSwipeCompleted: (index, direction) {
           if (kDebugMode) {
             print('$index, $direction');
+            if (direction == SwipeDirection.right) {
+              // Hit Lens API to like
+            } else if (direction == SwipeDirection.left) {
+              // Internal Algo
+            } else if (direction == SwipeDirection.up) {
+              // Hit Lens API Follow
+            } else if (direction == SwipeDirection.down) {
+              // Do something
+            }
           }
         },
-        horizontalSwipeThreshold: 0.9,
-        verticalSwipeThreshold: 0.8,
+        horizontalSwipeThreshold: 0.5,
+        verticalSwipeThreshold: 0.4,
         builder: (context, properties) {
           final itemIndex = properties.index % _videos.length;
           return StickyCard(name: "name", assetPath: _videos[itemIndex]);

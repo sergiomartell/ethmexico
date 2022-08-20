@@ -24,7 +24,7 @@ class _StickyVideoState extends State<StickyVideo> {
       // mutes the video
       _controller.setVolume(100);
       // Plays the video once the widget is build and loaded.
-      //_controller.play();
+      //
     });
     super.initState();
   }
@@ -47,7 +47,11 @@ class _StickyVideoState extends State<StickyVideo> {
             //_controller.play();
             return AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
+              child: InkWell(
+                  onTap: () {
+                    _controller.play();
+                  },
+                  child: VideoPlayer(_controller)),
             );
           } else {
             // If the VideoPlayerController is still initializing, show a

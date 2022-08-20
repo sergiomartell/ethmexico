@@ -9,9 +9,47 @@ class StickyVideo extends StatefulWidget {
   _StickyVideoState createState() => _StickyVideoState();
 }
 
-class _StickyVideoState extends State<StickyVideo> {
+class _StickyVideoState extends State<StickyVideo> with RouteAware {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void didChangeDependencies() {
+    //routeObserver.subscribe(this, ModalRoute.of(context)); //Subscribe it here
+    super.didChangeDependencies();
+  }
+
+  /// Called when the current route has been popped off.
+  @override
+  void didPop() {
+    print("didPop");
+    super.didPop();
+  }
+
+  /// Called when the top route has been popped off, and the current route
+  /// shows up.
+  @override
+  void didPopNext() {
+    print("didPopNext");
+    _controller.play();
+    super.didPopNext();
+  }
+
+  /// Called when the current route has been pushed.
+  @override
+  void didPush() {
+    print("didPush");
+    super.didPush();
+  }
+
+  /// Called when a new route has been pushed, and the current route is no
+  /// longer visible.
+  @override
+  void didPushNext() {
+    print("didPushNext");
+    _controller.pause();
+    super.didPushNext();
+  }
 
   @override
   void initState() {

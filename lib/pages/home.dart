@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sticky/utils/colors.dart';
 import 'package:sticky/widgets/widgets.dart';
 import 'package:swipable_stack/swipable_stack.dart';
+import 'package:sticky/services/api.dart';
 
 const _videos = [
   "assets/videos/stickytest1.mov",
@@ -20,11 +21,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final SwipableStackController _controller;
+  ApiServices api = ApiServices();
 
   void _listenController() => setState(() {});
 
   @override
   void initState() {
+
     super.initState();
     _controller = SwipableStackController()..addListener(_listenController);
   }

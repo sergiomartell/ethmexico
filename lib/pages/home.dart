@@ -44,41 +44,51 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         elevation: 0,
         leading: const Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(3.0),
           child: CircleAvatar(
+            radius: 50,
             backgroundColor: AppColors.primary,
             backgroundImage: AssetImage("assets/images/majorTom.png"),
           ),
         ),
         backgroundColor: Colors.transparent,
       ),
-      body: SwipableStack(
-        detectableSwipeDirections: const {
-          SwipeDirection.right,
-          SwipeDirection.left,
-        },
-        controller: _controller,
-        stackClipBehaviour: Clip.none,
-        onSwipeCompleted: (index, direction) {
-          if (kDebugMode) {
-            print('$index, $direction');
-            if (direction == SwipeDirection.right) {
-              // Hit Lens API to like
-            } else if (direction == SwipeDirection.left) {
-              // Internal Algo
-            } else if (direction == SwipeDirection.up) {
-              // Hit Lens API Follow
-            } else if (direction == SwipeDirection.down) {
-              // Do something
+      body: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/back.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SwipableStack(
+          detectableSwipeDirections: const {
+            SwipeDirection.right,
+            SwipeDirection.left,
+          },
+          controller: _controller,
+          stackClipBehaviour: Clip.none,
+          onSwipeCompleted: (index, direction) {
+            if (kDebugMode) {
+              print('$index, $direction');
+              if (direction == SwipeDirection.right) {
+                // Hit Lens API to like
+              } else if (direction == SwipeDirection.left) {
+                // Internal Algo
+              } else if (direction == SwipeDirection.up) {
+                // Hit Lens API Follow
+              } else if (direction == SwipeDirection.down) {
+                // Do something
+              }
             }
-          }
-        },
-        horizontalSwipeThreshold: 0.5,
-        verticalSwipeThreshold: 0.4,
-        builder: (context, properties) {
-          final itemIndex = properties.index % _videos.length;
-          return StickyCard(name: "name", assetPath: _videos[itemIndex]);
-        },
+          },
+          horizontalSwipeThreshold: 0.5,
+          verticalSwipeThreshold: 0.4,
+          builder: (context, properties) {
+            final itemIndex = properties.index % _videos.length;
+            return StickyCard(name: "name", assetPath: _videos[itemIndex]);
+          },
+        ),
       ),
     );
   }

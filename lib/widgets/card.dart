@@ -21,7 +21,9 @@ class StickyCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(13.0),
               child: Card(
-                shape: const StadiumBorder(),
+                color: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
                 elevation: 10,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -50,6 +52,10 @@ class StickyCard extends StatelessWidget {
         } else {
           return ClipRRect(
             child: Card(
+              clipBehavior: Clip.antiAlias,
+              color: Colors.black,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)),
               child: Stack(
                 children: [
                   StickyVideo(url: assetPath),

@@ -1,11 +1,11 @@
 import 'package:graphql/client.dart';
+import '../models/models.dart'
 
 class ApiServices {
   void fetchResults() async {
-    final String _httpLink = HttpLink(
-  'https://api-mumbai.lens.dev/',
+  final _httpLink = HttpLink(
+    'https://api-mumbai.lens.dev/',
   );
-
   final GraphQLClient client = GraphQLClient(
   /// **NOTE** The default store is the InMemoryStore, which does NOT persist to disk
   cache: GraphQLCache(),
@@ -109,12 +109,16 @@ class ApiServices {
     document: gql(readRepositories)
   );
   final QueryResult result = await client.query(options);
-    print(result);
-  }
-  
-  if (result.hasException) {
+    print(result.data[]);
+
+    LensApi lens = LensApi.fromJson(result.data);
+    if (result.hasException) {
     print(result.exception.toString());
   }
+
+  }
+  
+  
 
   //final List<dynamic> repositories =
       //result.data['viewer']['repositories']['nodes'] as List<dynamic>;

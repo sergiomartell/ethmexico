@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-
+    api.fetchResults();
     super.initState();
     _controller = SwipableStackController()..addListener(_listenController);
   }

@@ -24,3 +24,13 @@ The system is comprised by:
     2. Integration with the Lens Protocol, to aggregate a creator's posts and content.
     3. A set of smart contracts that "skims" the interests generated in Aave and distributes to creators.
     4. Simple and easy to enjoy protocols that makes crypto engaging and delightful.
+
+## Mechanism Design
+
+By utilizing proven interaction models (Swipe right to like and left to dismiss), Sticky provides a solution to broken timeline feeds, that tend to favor controversy over enjoyment.
+
+These inputs will be then used to generate a solid recommendation engine based on collaborative filtering, creating a feed that will thrive in common interests and not divisions. 
+
+It rewards interests instead of relationships in a "social graph" and brings back the joy of engaging with social media.
+
+In return, creators are rewarded, cutting out the middle man and lowering substantially the take rate that centralized organizations reap.

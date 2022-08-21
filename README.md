@@ -33,4 +33,4 @@ These inputs will be then used to generate a solid recommendation engine based o
 
 It rewards interests instead of relationships in a "social graph" and brings back the joy of engaging with social media.
 
-In return, creators are rewarded, cutting out the middle man and lowering substantially the take rate that centralized organizations reap.
+In return, creators are rewarded, cutting out the middle man and lowering substantially the take rate that centralized organizations reap, while at the same time creating a simple and easy to understand reward system, that is not guarded in convoluted algorithms... The more time people spend enjoying your creations, the more you win.

@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sticky/pages/profile.dart';
 import 'package:sticky/utils/colors.dart';
 import 'package:sticky/widgets/widgets.dart';
+import 'package:sticky/models/models.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 
 const _videos = [
@@ -22,6 +24,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Content> content = [
+    Content(
+      avatar: "assets/images/majorTom.png",
+      name: "Metaclaims CityVerse",
+      creator: "Sergio Martell",
+      handle: "major_tom",
+      video: "assets/videos/metaclaims.mp4",
+    ),
+    Content(
+      avatar: "assets/images/daniel.png",
+      name: "Nitrous",
+      creator: "Daniel Bedingfield",
+      handle: "@glooapparel.lens",
+      video: "assets/videos/stickytest1.mov",
+    ),
+    Content(
+      avatar: "assets/images/daniel.png",
+      name: "Dancin-on-the-man",
+      creator: "Daniel Bedingfield",
+      handle: "@glooapparel.lens",
+      video: "assets/videos/stickytest2.mov",
+    ),
+    Content(
+      avatar: "assets/images/daniel.png",
+      name: "Stick-it",
+      creator: "Daniel Bedingfield",
+      handle: "@glooapparel.lens",
+      video: "assets/videos/stickytest3.mov",
+    ),
+    Content(
+      avatar: "assets/images/daniel.png",
+      name: "Pacha Mother",
+      creator: "Daniel Bedingfield",
+      handle: "@glooapparel.lens",
+      video: "assets/videos/stickytest4.mov",
+    )
+  ];
   // Methods and Functions
 
   Path drawStar(Size size) {
@@ -74,12 +113,20 @@ class _HomePageState extends State<HomePage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        leading: const Padding(
-          padding: EdgeInsets.all(3.0),
-          child: CircleAvatar(
-            radius: 50,
-            backgroundColor: AppColors.primary,
-            backgroundImage: AssetImage("assets/images/majorTom.png"),
+        leading: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfilePage()),
+              );
+            },
+            child: const CircleAvatar(
+              radius: 50,
+              backgroundColor: AppColors.primary,
+              backgroundImage: AssetImage("assets/images/majorTom.png"),
+            ),
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -120,7 +167,11 @@ class _HomePageState extends State<HomePage> {
               verticalSwipeThreshold: 0.4,
               builder: (context, properties) {
                 final itemIndex = properties.index % _videos.length;
-                return StickyCard(name: "name", assetPath: _videos[itemIndex]);
+                return StickyCard(
+                  name: "name",
+                  assetPath: _videos[itemIndex],
+                  content: content[itemIndex],
+                );
               },
             ),
             Align(

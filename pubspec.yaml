@@ -15,6 +15,7 @@ dependencies:
   google_fonts: ^3.0.1
   swipable_stack: ^2.0.0
   confetti: ^0.7.0
+  profile: ^0.0.1
   
 
 dev_dependencies:

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:sticky/models/models.dart';
 import 'package:sticky/widgets/video.dart';
 
 class StickyCard extends StatelessWidget {
   const StickyCard({
+    required this.content,
     required this.name,
     required this.assetPath,
     super.key,
   });
-
+  final Content content;
   final String name;
   final String assetPath;
 
@@ -28,7 +30,7 @@ class StickyCard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    StickyVideo(url: assetPath),
+                    StickyVideo(url: content.video),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Column(
@@ -36,8 +38,20 @@ class StickyCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            name,
+                            content.name,
                             style: theme.textTheme.headline6!.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            content.creator,
+                            style: theme.textTheme.bodyMedium!.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            content.handle,
+                            style: theme.textTheme.caption!.copyWith(
                               color: Colors.white,
                             ),
                           ),
@@ -58,37 +72,48 @@ class StickyCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(40)),
               child: Stack(
                 children: [
-                  StickyVideo(url: assetPath),
-                  /* Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(14),
-                    ),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[
-                        Colors.black12.withOpacity(0),
-                        Colors.black12.withOpacity(.4),
-                        Colors.black12.withOpacity(.82),
-                      ],
+                  StickyVideo(url: content.video),
+                  Opacity(
+                    opacity: .5,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          content.name,
+                          style: theme.textTheme.headline6!.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ), */
-                  const Align(
-                    alignment: Alignment.bottomLeft,
+                  Align(
+                    alignment: Alignment.bottomRight,
                     child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        child: Chip(
-                          avatar: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/images/majorTom.png")),
-                          label: Text("Daniel"),
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Opacity(
+                          opacity: .5,
+                          child: Row(
+                            children: [
+                              Chip(
+                                avatar: CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage(content.avatar)),
+                                label: Text(content.creator),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Chip(
+                                avatar: const CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("assets/images/lens.png"),
+                                ),
+                                label: Text(content.handle),
+                              ),
+                            ],
+                          ),
                         )),
                   ),
                 ],

@@ -12,10 +12,11 @@ class StickyVideo extends StatefulWidget {
 class _StickyVideoState extends State<StickyVideo> with RouteAware {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
-
+  final RouteObserver<ModalRoute<void>> routeObserver =
+      RouteObserver<ModalRoute<void>>();
   @override
   void didChangeDependencies() {
-    //routeObserver.subscribe(this, ModalRoute.of(context)); //Subscribe it here
+    routeObserver.subscribe(this, ModalRoute.of(context)!); //Subscribe it here
     super.didChangeDependencies();
   }
 
@@ -31,7 +32,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
   @override
   void didPopNext() {
     print("didPopNext");
-    _controller.play();
+
     super.didPopNext();
   }
 
@@ -89,7 +90,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
                   onTap: () {
                     _controller.play();
                   },
-                  child: VideoPlayer(_controller)),
+                  child: Center(child: VideoPlayer(_controller))),
             );
           } else {
             // If the VideoPlayerController is still initializing, show a

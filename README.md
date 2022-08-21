@@ -22,7 +22,7 @@ Creators are able to collect the yield, in a fair and distributed manner, by cal
 The system is comprised by:
     1. A Mobile Application, developed on flutter.
     2. Integration with the Lens Protocol, to aggregate a creator's posts and content.
-    3. A set of smart contracts that "skims" the interests generated in Aave and distributes to creators.
+    3. A set of smart contracts that "skims" the interests generated in Aave and distributes to creators. These elements can be found [here](https://github.com/numtel/sticky-contracts) 
     4. Simple and easy to enjoy protocols that makes crypto engaging and delightful.
 
 ## Mechanism Design

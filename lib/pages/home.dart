@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:confetti/confetti.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky/pages/profile.dart';
@@ -63,7 +60,7 @@ class _HomePageState extends State<HomePage> {
   ];
   // Methods and Functions
 
-  Path drawStar(Size size) {
+  /* Path drawStar(Size size) {
     // Method to convert degree to radians
     double degToRad(double deg) => deg * (pi / 180.0);
 
@@ -85,10 +82,10 @@ class _HomePageState extends State<HomePage> {
     }
     path.close();
     return path;
-  }
+  } */
 
   late final SwipableStackController _controller;
-  late ConfettiController _controllerConf;
+  /* late ConfettiController _controllerConf; */
 
   void _listenController() => setState(() {});
 
@@ -96,7 +93,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _controller = SwipableStackController()..addListener(_listenController);
-    _controllerConf = ConfettiController(duration: const Duration(seconds: 2));
+    //_controllerConf = ConfettiController(duration: const Duration(seconds: 2));
   }
 
   @override
@@ -110,91 +107,105 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const Drawer(),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(3.0),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilePage()),
-              );
-            },
-            child: const CircleAvatar(
-              radius: 50,
-              backgroundColor: AppColors.primary,
-              backgroundImage: AssetImage("assets/images/majorTom.png"),
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/back.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Stack(
-          children: [
-            SwipableStack(
-              detectableSwipeDirections: const {
-                SwipeDirection.right,
-                SwipeDirection.left,
-              },
-              controller: _controller,
-              stackClipBehaviour: Clip.none,
-              onSwipeCompleted: (index, direction) {
-                if (kDebugMode) {
-                  print('$index, $direction');
-                  if (direction == SwipeDirection.right) {
-                    // Hit Lens API to lik
-                    _controllerConf.play();
-                  } else if (direction == SwipeDirection.left) {
-                    // Internal Algo
-                  } else if (direction == SwipeDirection.up) {
-                    // Hit Lens API Follow
-                  } else if (direction == SwipeDirection.down) {
-                    // Do something
-                  }
-                }
-              },
-              horizontalSwipeThreshold: 0.5,
-              verticalSwipeThreshold: 0.4,
-              builder: (context, properties) {
-                final itemIndex = properties.index % _videos.length;
-                return StickyCard(
-                  name: "name",
-                  assetPath: _videos[itemIndex],
-                  content: content[itemIndex],
-                );
-              },
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: ConfettiWidget(
-                blastDirection: pi,
-                confettiController: _controllerConf,
-                blastDirectionality: BlastDirectionality
-                    .explosive, // don't specify a direction, blast randomly
-                shouldLoop:
-                    false, // start again as soon as the animation is finished
-                colors: const [
-                  Colors.green,
-                  Colors.blue,
-                  Colors.pink,
-                  Colors.orange,
-                  Colors.purple
-                ], // manually specify the colors to be used
-                createParticlePath: drawStar, // define a custom shape/path.
+      body: OrientationBuilder(
+        builder: ((context, orientation) {
+          return Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/back.png"),
+                fit: BoxFit.cover,
               ),
             ),
-          ],
-        ),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: orientation == Orientation.landscape
+                      ? const EdgeInsets.all(10)
+                      : const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
+                  child: SwipableStack(
+                    detectableSwipeDirections: const {
+                      SwipeDirection.right,
+                      SwipeDirection.left,
+                      SwipeDirection.up
+                    },
+                    controller: _controller,
+                    stackClipBehaviour: Clip.none,
+                    onSwipeCompleted: (index, direction) {
+                      if (kDebugMode) {
+                        print('$index, $direction');
+                        if (direction == SwipeDirection.right) {
+                          // Hit Lens API to lik
+                          //_controllerConf.play();
+                        } else if (direction == SwipeDirection.left) {
+                          // Internal Algo
+                        } else if (direction == SwipeDirection.up) {
+                          // Hit Lens API Follow
+                        } else if (direction == SwipeDirection.down) {
+                          // Do something
+                        }
+                      }
+                    },
+                    horizontalSwipeThreshold: 0.5,
+                    verticalSwipeThreshold: 0.4,
+                    builder: (context, properties) {
+                      final itemIndex = properties.index % _videos.length;
+                      return StickyCard(
+                        name: "name",
+                        assetPath: _videos[itemIndex],
+                        content: content[itemIndex],
+                      );
+                    },
+                  ),
+                ),
+                /* Align(
+                alignment: Alignment.centerRight,
+                child: ConfettiWidget(
+                  blastDirection: pi,
+                  confettiController: _controllerConf,
+                  blastDirectionality: BlastDirectionality
+                      .explosive, // don't specify a direction, blast randomly
+                  shouldLoop:
+                      false, // start again as soon as the animation is finished
+                  colors: const [
+                    Colors.green,
+                    Colors.blue,
+                    Colors.pink,
+                    Colors.orange,
+                    Colors.purple
+                  ], // manually specify the colors to be used
+                  createParticlePath: drawStar, // define a custom shape/path.
+                ),
+              ), */
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: orientation == Orientation.landscape
+                        ? const EdgeInsets.all(20.0)
+                        : const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 55),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProfilePage()),
+                        );
+                      },
+                      child: const CircleAvatar(
+                        radius: 25,
+                        backgroundColor: AppColors.primary,
+                        backgroundImage:
+                            AssetImage("assets/images/majorTom.png"),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

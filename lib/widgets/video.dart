@@ -6,7 +6,7 @@ class StickyVideo extends StatefulWidget {
   const StickyVideo({Key? key, required this.url}) : super(key: key);
 
   @override
-  _StickyVideoState createState() => _StickyVideoState();
+  State createState() => _StickyVideoState();
 }
 
 class _StickyVideoState extends State<StickyVideo> with RouteAware {
@@ -23,7 +23,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
   /// Called when the current route has been popped off.
   @override
   void didPop() {
-    print("didPop");
+    debugPrint("didPop");
     super.didPop();
   }
 
@@ -31,7 +31,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
   /// shows up.
   @override
   void didPopNext() {
-    print("didPopNext");
+    debugPrint("didPopNext");
 
     super.didPopNext();
   }
@@ -39,7 +39,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
   /// Called when the current route has been pushed.
   @override
   void didPush() {
-    print("didPush");
+    debugPrint("didPush");
     super.didPush();
   }
 
@@ -47,7 +47,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
   /// longer visible.
   @override
   void didPushNext() {
-    print("didPushNext");
+    debugPrint("didPushNext");
     _controller.pause();
     super.didPushNext();
   }

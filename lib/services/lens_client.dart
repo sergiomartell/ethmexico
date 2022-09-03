@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:sticky/pages/query_wrap.dart';
 import '../pages/home.dart';
 
 class LensClient extends StatelessWidget {
@@ -17,7 +18,7 @@ class LensClient extends StatelessWidget {
     );
     return GraphQLProvider(
       client: client,
-      child: HomePage(),
+      child: QueryWrap(),
     );
   }
 }

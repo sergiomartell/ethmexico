@@ -54,7 +54,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
 
   @override
   void initState() {
-    _controller = VideoPlayerController.asset(
+    _controller = VideoPlayerController.network(
       widget.url,
     );
     _initializeVideoPlayerFuture = _controller.initialize();

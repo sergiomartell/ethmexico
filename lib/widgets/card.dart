@@ -5,13 +5,9 @@ import 'package:sticky/widgets/video.dart';
 class StickyCard extends StatelessWidget {
   const StickyCard({
     required this.content,
-    required this.name,
-    required this.assetPath,
     super.key,
   });
-  final Content content;
-  final String name;
-  final String assetPath;
+  final LensPublications content;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +19,7 @@ class StickyCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(13.0),
               child: Card(
+                clipBehavior: Clip.antiAlias,
                 color: Colors.black,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40)),
@@ -30,27 +27,27 @@ class StickyCard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    StickyVideo(url: content.video),
+                    StickyVideo(url: content.metadata.media[0].original.url),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            content.name,
+                            content.profile.name,
                             style: theme.textTheme.headline6!.copyWith(
                               color: Colors.white,
                             ),
                           ),
                           Text(
-                            content.creator,
-                            style: theme.textTheme.bodyMedium!.copyWith(
+                            content.metadata.name,
+                            style: theme.textTheme.bodySmall!.copyWith(
                               color: Colors.white,
                             ),
                           ),
                           Text(
-                            content.handle,
+                            content.profile.handle,
                             style: theme.textTheme.caption!.copyWith(
                               color: Colors.white,
                             ),
@@ -72,16 +69,20 @@ class StickyCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(40)),
               child: Stack(
                 children: [
-                  StickyVideo(url: content.video),
+                  Align(
+                    alignment: Alignment.center,
+                    child: StickyVideo(
+                        url: content.metadata.media[0].original.url),
+                  ),
                   Opacity(
                     opacity: .5,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 20),
+                      padding: const EdgeInsets.only(right: 20, bottom: 10),
                       child: Align(
-                        alignment: Alignment.topRight,
+                        alignment: Alignment.bottomRight,
                         child: Text(
-                          content.name,
-                          style: theme.textTheme.headline6!.copyWith(
+                          content.metadata.name,
+                          style: theme.textTheme.bodySmall!.copyWith(
                             color: Colors.white,
                           ),
                         ),
@@ -97,10 +98,10 @@ class StickyCard extends StatelessWidget {
                           child: Row(
                             children: [
                               Chip(
-                                avatar: CircleAvatar(
+                                /*  avatar: CircleAvatar(
                                     backgroundImage:
-                                        AssetImage(content.avatar)),
-                                label: Text(content.creator),
+                                        NetworkImage(content.profile.picture)), */
+                                label: Text(content.profile.name),
                               ),
                               const SizedBox(
                                 width: 10,
@@ -110,7 +111,7 @@ class StickyCard extends StatelessWidget {
                                   backgroundImage:
                                       AssetImage("assets/images/lens.png"),
                                 ),
-                                label: Text(content.handle),
+                                label: Text(content.profile.handle),
                               ),
                             ],
                           ),

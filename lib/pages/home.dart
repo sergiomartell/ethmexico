@@ -6,59 +6,17 @@ import 'package:sticky/widgets/widgets.dart';
 import 'package:sticky/models/models.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 
-const _videos = [
-  "assets/videos/stickytest1.mov",
-  "assets/videos/stickytest2.mov",
-  "assets/videos/stickytest3.mov",
-  "assets/videos/stickytest4.mov"
-];
-
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key, required this.videos}) : super(key: key);
+
+  final List<LensPublications> videos;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Content> content = [
-    Content(
-      avatar: "assets/images/majorTom.png",
-      name: "Metaclaims CityVerse",
-      creator: "Sergio Martell",
-      handle: "major_tom",
-      video: "assets/videos/metaclaims.mp4",
-    ),
-    Content(
-      avatar: "assets/images/daniel.png",
-      name: "Nitrous",
-      creator: "Daniel Bedingfield",
-      handle: "@glooapparel.lens",
-      video: "assets/videos/stickytest1.mov",
-    ),
-    Content(
-      avatar: "assets/images/daniel.png",
-      name: "Dancin-on-the-man",
-      creator: "Daniel Bedingfield",
-      handle: "@glooapparel.lens",
-      video: "assets/videos/stickytest2.mov",
-    ),
-    Content(
-      avatar: "assets/images/daniel.png",
-      name: "Stick-it",
-      creator: "Daniel Bedingfield",
-      handle: "@glooapparel.lens",
-      video: "assets/videos/stickytest3.mov",
-    ),
-    Content(
-      avatar: "assets/images/daniel.png",
-      name: "Pacha Mother",
-      creator: "Daniel Bedingfield",
-      handle: "@glooapparel.lens",
-      video: "assets/videos/stickytest4.mov",
-    )
-  ];
-  // Methods and Functions
+  //* Methods and Functions
 
   /* Path drawStar(Size size) {
     // Method to convert degree to radians
@@ -150,11 +108,9 @@ class _HomePageState extends State<HomePage> {
                     horizontalSwipeThreshold: 0.5,
                     verticalSwipeThreshold: 0.4,
                     builder: (context, properties) {
-                      final itemIndex = properties.index % _videos.length;
+                      final itemIndex = properties.index % widget.videos.length;
                       return StickyCard(
-                        name: "name",
-                        assetPath: _videos[itemIndex],
-                        content: content[itemIndex],
+                        content: widget.videos[itemIndex],
                       );
                     },
                   ),

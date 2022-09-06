@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'pages/pages.dart';
+
+import 'package:sticky/services/lens_client.dart';
+
 import 'utils/utils.dart';
 
 void main() {
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sticky',
       theme: stickyTheme,
-      home: const HomePage(),
+      home: const LensClient(),
     );
   }
 }

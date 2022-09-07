@@ -32,7 +32,7 @@ class _QueryWrapState extends State<QueryWrap> {
           }
 
           final publicationsList = result.data?['explorePublications']['items'];
-          print(publicationsList);
+          // print(publicationsList);
 
           List<LensPublications> lensPubs = List.filled(publicationsList.length,
               LensPublications.fromJson(publicationsList[0]));
@@ -58,7 +58,7 @@ class _QueryWrapState extends State<QueryWrap> {
             }
           }
 
-          return HomePage(videos: urls);
+          return HomePage();
         },
       ),
     );

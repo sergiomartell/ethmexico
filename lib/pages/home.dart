@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:sticky/services/lens_client.dart';
 import 'package:sticky/utils/colors.dart';
 import 'package:sticky/widgets/widgets.dart';
 import 'package:swipable_stack/swipable_stack.dart';
@@ -12,9 +13,9 @@ const _videos = [
 ];
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.videos}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
-  final List<String> videos;
+  // final List<String> videos;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,6 +23,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final SwipableStackController _controller;
+
+  LensClient _lensClient = LensClient();
 
   void _listenController() => setState(() {});
 
@@ -41,38 +44,47 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0,
-          leading: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              backgroundColor: AppColors.primary,
-              backgroundImage: AssetImage("assets/images/majorTom.png"),
-            ),
-          ),
-          backgroundColor: Colors.transparent,
-        ),
-        body: SwipableStack(
-          detectableSwipeDirections: const {
-            SwipeDirection.right,
-            SwipeDirection.left,
-          },
-          controller: _controller,
-          stackClipBehaviour: Clip.none,
-          onSwipeCompleted: (index, direction) {
-            if (kDebugMode) {
-              print('$index, $direction');
-            }
-          },
-          horizontalSwipeThreshold: 0.9,
-          verticalSwipeThreshold: 0.8,
-          builder: (context, properties) {
-            final itemIndex = properties.index % widget.videos.length;
-            return StickyCard(
-                name: "name", assetPath: widget.videos[itemIndex]);
-          },
-        ));
+    return FutureBuilder(
+        future: _lensClient.queryVideos(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                elevation: 0,
+                leading: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundColor: AppColors.primary,
+                    backgroundImage: AssetImage("assets/images/majorTom.png"),
+                  ),
+                ),
+                backgroundColor: Colors.transparent,
+              ),
+              body: SwipableStack(
+                detectableSwipeDirections: const {
+                  SwipeDirection.right,
+                  SwipeDirection.left,
+                },
+                controller: _controller,
+                stackClipBehaviour: Clip.none,
+                onSwipeCompleted: (index, direction) {
+                  if (kDebugMode) {
+                    print('$index, $direction');
+                  }
+                },
+                horizontalSwipeThreshold: 0.9,
+                verticalSwipeThreshold: 0.8,
+                builder: (context, properties) {
+                  var videos = snapshot.data;
+                  final itemIndex = properties.index % videos!.length;
+                  return StickyCard(name: "name", assetPath: videos[itemIndex]);
+                },
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
   }
 }

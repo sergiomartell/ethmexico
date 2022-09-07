@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sticky',
       theme: stickyTheme,
-      home: const LensClient(),
+      home: const HomePage(),
     );
   }
 }

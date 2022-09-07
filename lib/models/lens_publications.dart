@@ -149,6 +149,7 @@ class Picture {
   Picture({
     this.original,
   });
+  // ignore: prefer_typing_uninitialized_variables
   late final original;
 
   Picture.fromJson(Map<String, dynamic> json) {

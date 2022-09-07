@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sticky/pages/query_wrap.dart';
-import 'package:sticky/services/services.dart';
 
 class LensClient extends StatelessWidget {
   const LensClient({Key? key}) : super(key: key);

@@ -14,7 +14,7 @@ class QueryWrap extends StatefulWidget {
 
 class _QueryWrapState extends State<QueryWrap> {
   final Queries _query = Queries();
-
+  final LensService _lens = LensService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,30 +40,16 @@ class _QueryWrapState extends State<QueryWrap> {
 
             final publicationsList =
                 result.data?['explorePublications']['items'];
-            List<LensPublications> videoPubs = [];
+
+            //List<LensPublications> videoPubs = [];
             List<LensPublications> lensPubs = List.filled(
                 publicationsList.length,
                 LensPublications.fromJson(publicationsList[0]));
             for (var i = 0; i < publicationsList.length; i++) {
               lensPubs[i] = LensPublications.fromJson(publicationsList[i]);
             }
-
-            for (var i = 0; i < lensPubs.length; i++) {
-              if (lensPubs[i].metadata.media.isNotEmpty) {
-                if (lensPubs[i].metadata.media[0].original.mimeType ==
-                        "video/mp4" &&
-                    (lensPubs[i]
-                            .metadata
-                            .media[0]
-                            .original
-                            .url
-                            .substring(0, 4)) !=
-                        'ipfs') {
-                  videoPubs.add(lensPubs[i]);
-                }
-              }
-            }
-
+            List<LensPublications> videoPubs = _lens.filterVideos(lensPubs);
+            if (videoPubs.length < 10) {}
             return HomePage(videos: videoPubs);
           },
         ),

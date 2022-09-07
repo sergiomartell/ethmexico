@@ -353,7 +353,10 @@ class LensService {
     List<LensPublications> filtered = [];
     for (var element in pubs) {
       if (element.metadata.media.isNotEmpty) {
-        filtered.add(element);
+        if (element.metadata.media[0].original.mimeType == "video/mp4" &&
+            element.metadata.media[0].original.url.substring(0, 4) != 'ipfs') {
+          filtered.add(element);
+        }
       }
     }
     return filtered;

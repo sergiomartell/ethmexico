@@ -35,10 +35,7 @@ class StickyCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: StickyVideo(url: content.metadata.media[0].original.url),
-            ),
+            StickyVideo(url: content.metadata.media[0].original.url),
             Opacity(
               opacity: .5,
               child: Padding(

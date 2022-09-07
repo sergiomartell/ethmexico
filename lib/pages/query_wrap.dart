@@ -49,7 +49,7 @@ class _QueryWrapState extends State<QueryWrap> {
               lensPubs[i] = LensPublications.fromJson(publicationsList[i]);
             }
             List<LensPublications> videoPubs = _lens.filterVideos(lensPubs);
-            if (videoPubs.length < 10) {}
+
             return HomePage(videos: videoPubs);
           },
         ),

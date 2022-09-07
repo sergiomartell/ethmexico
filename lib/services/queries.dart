@@ -2,13 +2,9 @@ import 'package:sticky/models/models.dart';
 
 class Queries {
   String fetchPublications() {
-    return '''
-      query ExplorePublications {
-        explorePublications(request: {
-          sortCriteria: TOP_COMMENTED,
-          publicationTypes: [POST],
-          limit: 50
-        }) {
+    return r'''
+      query($request: ExplorePublicationRequest!) {
+        explorePublications(request: $request) {
           items {
             __typename 
             ... on Post {
@@ -348,6 +344,7 @@ class Queries {
 
 class LensService {
   List<LensPublications> videoPosts = [];
+  var CID;
 
   List<LensPublications> filterVideos(List<LensPublications> pubs) {
     List<LensPublications> filtered = [];

@@ -88,7 +88,7 @@ class Profile {
     bio = json['bio'] ?? "";
     isFollowedByMe = json['isFollowedByMe'];
     isFollowing = json['isFollowing'];
-    followNftAddress = json['followNftAddress'];
+    followNftAddress = json['followNftAddress'] ?? "";
     metadata = json['metadata'] ?? "";
     isDefault = json['isDefault'];
     handle = json['handle'];

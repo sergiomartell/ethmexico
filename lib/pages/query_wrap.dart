@@ -26,7 +26,20 @@ class _QueryWrapState extends State<QueryWrap> {
           ),
         ),
         child: Query(
-          options: QueryOptions(document: gql(_query.fetchPublications())),
+          options: QueryOptions(
+            document: gql(_query.fetchPublications()),
+            variables: {
+              'request': {
+                'sortCriteria': 'TOP_COMMENTED',
+                'publicationTypes': ['POST'],
+                'limit': 50,
+                'metadata': {
+                  'mainContentFocus': ['VIDEO']
+                }
+                //'cursor': null,
+              }
+            },
+          ),
           builder: (QueryResult result, {fetchMore, refetch}) {
             if (result.hasException) {
               return Text(result.exception.toString());
@@ -50,6 +63,41 @@ class _QueryWrapState extends State<QueryWrap> {
             }
             List<LensPublications> videoPubs = _lens.filterVideos(lensPubs);
 
+            final Map pageInfo =
+                result.data!['explorePublications']['pageInfo'];
+            final String? fetchMoreCursor = pageInfo['next'];
+            print(
+                'END DATA INDEX --------------------------------: $fetchMoreCursor');
+
+            FetchMoreOptions opts = FetchMoreOptions(
+              variables: {
+                'request': {
+                  'sortCriteria': 'TOP_COMMENTED',
+                  'publicationTypes': ['POST'],
+                  'limit': 50,
+                  'metadata': {
+                    'mainContentFocus': ['VIDEO']
+                  }
+                  //'cursor': fetchMoreCursor,
+                }
+              },
+              updateQuery: (previousResultData, fetchMoreResultData) {
+                final List<dynamic> repos = [
+                  ...previousResultData!['explorePublications']['items']
+                      as List<dynamic>,
+                  ...fetchMoreResultData!['explorePublications']['items']
+                      as List<dynamic>
+                ];
+
+                fetchMoreResultData['explorePublications']['items'] = repos;
+                return fetchMoreResultData;
+              },
+            );
+
+            // if (videoPubs.length < 10) {
+            //   fetchMore!(opts);
+            // }
+            print(videoPubs);
             return HomePage(videos: videoPubs);
           },
         ),

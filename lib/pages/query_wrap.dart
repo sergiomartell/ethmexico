@@ -26,7 +26,19 @@ class _QueryWrapState extends State<QueryWrap> {
           ),
         ),
         child: Query(
-          options: QueryOptions(document: gql(_query.fetchPublications())),
+          options: QueryOptions(
+              document: gql(_query.fetchPublications()),
+              variables: {
+                'request': {
+                  'sortCriteria': 'TOP_COMMENTED',
+                  'publicationTypes': ['POST'],
+                  'limit': 50,
+                  'metadata': {
+                    'mainContentFocus': ['VIDEO']
+                  },
+                  'noRandomize': false
+                }
+              }),
           builder: (QueryResult result, {fetchMore, refetch}) {
             if (result.hasException) {
               return Text(result.exception.toString());

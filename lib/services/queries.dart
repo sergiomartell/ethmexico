@@ -2,13 +2,9 @@ import 'package:sticky/models/models.dart';
 
 class Queries {
   String fetchPublications() {
-    return '''
-      query ExplorePublications {
-        explorePublications(request: {
-          sortCriteria: TOP_COMMENTED,
-          publicationTypes: [POST],
-          limit: 50
-        }) {
+    return r'''
+      query($request: ExplorePublicationRequest!) {
+        explorePublications(request: $request) {
           items {
             __typename 
             ... on Post {
@@ -356,6 +352,7 @@ class LensService {
         if (element.metadata.media[0].original.mimeType == "video/mp4" &&
             element.metadata.media[0].original.url.substring(0, 4) != 'ipfs') {
           filtered.add(element);
+          print(element.metadata.media[0].original.url);
         }
       }
     }

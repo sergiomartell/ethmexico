@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:sticky/models/models.dart';
 
 class Queries {
@@ -344,15 +347,18 @@ class Queries {
 
 class LensService {
   List<LensPublications> videoPosts = [];
+  List<LensPublications> filtered = [];
   var CID;
+  var counter = 1;
 
   List<LensPublications> filterVideos(List<LensPublications> pubs) {
-    List<LensPublications> filtered = [];
     for (var element in pubs) {
       if (element.metadata.media.isNotEmpty) {
         if (element.metadata.media[0].original.mimeType == "video/mp4" &&
             element.metadata.media[0].original.url.substring(0, 4) != 'ipfs') {
           filtered.add(element);
+          print('$counter: ${element.metadata.media[0].original.url}');
+          counter++;
         }
       }
     }

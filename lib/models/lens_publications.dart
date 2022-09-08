@@ -170,7 +170,7 @@ class Original {
     required this.url,
     required this.mimeType,
   });
-  late final String url;
+  late String url;
 
   late final String mimeType;
 

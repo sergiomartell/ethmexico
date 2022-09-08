@@ -15,6 +15,7 @@ class QueryWrap extends StatefulWidget {
 class _QueryWrapState extends State<QueryWrap> {
   final Queries _query = Queries();
   final LensService _lens = LensService();
+  List<LensPublications> videoPubs = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +31,14 @@ class _QueryWrapState extends State<QueryWrap> {
             document: gql(_query.fetchPublications()),
             variables: {
               'request': {
-                'sortCriteria': 'TOP_COMMENTED',
+                'sortCriteria': 'LATEST',
                 'publicationTypes': ['POST'],
                 'limit': 50,
                 'metadata': {
                   'mainContentFocus': ['VIDEO']
-                }
-                //'cursor': null,
+                },
+                'noRandomize': false,
+                // 'cursor': null,
               }
             },
           ),
@@ -54,14 +56,18 @@ class _QueryWrapState extends State<QueryWrap> {
             final publicationsList =
                 result.data?['explorePublications']['items'];
 
-            //List<LensPublications> videoPubs = [];
             List<LensPublications> lensPubs = List.filled(
                 publicationsList.length,
                 LensPublications.fromJson(publicationsList[0]));
             for (var i = 0; i < publicationsList.length; i++) {
               lensPubs[i] = LensPublications.fromJson(publicationsList[i]);
             }
-            List<LensPublications> videoPubs = _lens.filterVideos(lensPubs);
+
+            videoPubs = _lens.filterVideos(lensPubs);
+
+            // for (var i = 0; i < videoPubs.length; i++) {
+            //   print('$i: ${videoPubs[i].metadata.media[0].original.url}');
+            // }
 
             final Map pageInfo =
                 result.data!['explorePublications']['pageInfo'];
@@ -77,8 +83,9 @@ class _QueryWrapState extends State<QueryWrap> {
                   'limit': 50,
                   'metadata': {
                     'mainContentFocus': ['VIDEO']
-                  }
-                  //'cursor': fetchMoreCursor,
+                  },
+                  'noRandomize': false,
+                  // 'cursor': fetchMoreCursor,
                 }
               },
               updateQuery: (previousResultData, fetchMoreResultData) {
@@ -94,10 +101,10 @@ class _QueryWrapState extends State<QueryWrap> {
               },
             );
 
-            // if (videoPubs.length < 10) {
+            // if (videoPubs.length < 20) {
             //   fetchMore!(opts);
             // }
-            print(videoPubs);
+
             return HomePage(videos: videoPubs);
           },
         ),

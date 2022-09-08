@@ -1,4 +1,4 @@
-package com.example.sticky
+package com.motleyds.sticky
 
 import io.flutter.embedding.android.FlutterActivity
 

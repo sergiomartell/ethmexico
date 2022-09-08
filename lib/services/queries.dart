@@ -352,7 +352,6 @@ class LensService {
         if (element.metadata.media[0].original.mimeType == "video/mp4" &&
             element.metadata.media[0].original.url.substring(0, 4) != 'ipfs') {
           filtered.add(element);
-          print(element.metadata.media[0].original.url);
         }
       }
     }

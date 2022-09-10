@@ -28,7 +28,7 @@ class _QueryWrapState extends State<QueryWrap> {
         child: Query(
           options: QueryOptions(
               document: gql(_query.fetchPublications()),
-              variables: {
+              variables: const {
                 'request': {
                   'sortCriteria': 'TOP_COMMENTED',
                   'publicationTypes': ['POST'],

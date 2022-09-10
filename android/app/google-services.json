@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "896105288203",
+    "project_id": "supersticky",
+    "storage_bucket": "supersticky.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896105288203:android:cb9b86e2db33ffd8deed0e",
+        "android_client_info": {
+          "package_name": "com.motleyds.sticky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896105288203-dfhe2ji2ekvibcnven5br2p0o9readuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUAPWqDExvaJhsYbRs48SWSSjlh4ZllNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896105288203-dfhe2ji2ekvibcnven5br2p0o9readuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

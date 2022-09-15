@@ -91,7 +91,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    //Size screen = MediaQuery.of(context).size;
+    Size screen = MediaQuery.of(context).size;
     //debugPrint("${_controller.value.aspectRatio}");
     return FutureBuilder(
       future: _initializeVideoPlayerFuture,
@@ -99,13 +99,14 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
         if (snapshot.connectionState == ConnectionState.done) {
           return Stack(
             children: [
-              AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: InkWell(
-                    onTap: playPause,
-                    child: Center(child: VideoPlayer(_controller))),
+              Center(
+                child: AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: InkWell(
+                      onTap: playPause, child: VideoPlayer(_controller)),
+                ),
               ),
-              /* Container(
+              Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(
                     horizontal: screen.width * .30,
@@ -121,7 +122,7 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
                     onPressed: playPause,
                   ),
                 ),
-              ) */
+              )
             ],
           );
         } else {

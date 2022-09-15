@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sticky/pages/profile.dart';
 import 'package:sticky/utils/colors.dart';
+import 'package:sticky/utils/theme.dart';
 import 'package:sticky/widgets/widgets.dart';
 import 'package:sticky/models/models.dart';
 import 'package:swipable_stack/swipable_stack.dart';
@@ -65,7 +67,29 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              },
+              child: const CircleAvatar(
+                radius: 20,
+                backgroundColor: AppColors.primary,
+                backgroundImage: AssetImage("assets/images/majorTom.png"),
+              ),
+            ),
+          ),
+        ],
+      ),
+      drawer: _drawer(),
       extendBodyBehindAppBar: true,
       body: OrientationBuilder(
         builder: ((context, orientation) {
@@ -134,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                   createParticlePath: drawStar, // define a custom shape/path.
                 ),
               ), */
-                Align(
+                /* Align(
                   alignment: Alignment.topRight,
                   child: Padding(
                     padding: orientation == Orientation.landscape
@@ -157,11 +181,77 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                )
+                ) */
               ],
             ),
           );
         }),
+      ),
+    );
+  }
+
+  //* Widget Builds
+  Widget _drawer() {
+    return Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              color: Colors.black,
+            ),
+            child: Image.asset("assets/images/menuHeader.png"),
+          ),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.wallet),
+            title: Text(
+              'Connect Wallet',
+              style: AppStyles.menu,
+            ),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.qrcode),
+            title: Text(
+              'Access Code',
+              style: AppStyles.menu,
+            ),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.gear),
+            title: Text(
+              'Settings',
+              style: AppStyles.menu,
+            ),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.wallet),
+            title: Text(
+              'FAQ',
+              style: AppStyles.menu,
+            ),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
     );
   }

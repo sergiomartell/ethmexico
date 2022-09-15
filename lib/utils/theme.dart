@@ -7,3 +7,8 @@ ThemeData stickyTheme = ThemeData(
     primaryColor: AppColors.primary,
     textTheme: GoogleFonts.sairaTextTheme()
         .copyWith(headline5: const TextStyle(color: Colors.white)));
+
+class AppStyles {
+  static TextStyle menu = const TextStyle(
+      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16);
+}

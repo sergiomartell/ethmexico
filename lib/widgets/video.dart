@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class StickyVideo extends StatefulWidget {
   final String url;
@@ -11,12 +12,9 @@ class StickyVideo extends StatefulWidget {
   State createState() => _StickyVideoState();
 }
 
-class _StickyVideoState extends State<StickyVideo> with RouteAware {
+class _StickyVideoState extends State<StickyVideo> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
-
-  final RouteObserver<ModalRoute<void>> routeObserver =
-      RouteObserver<ModalRoute<void>>();
 
   //* Methods and Functions
 
@@ -29,44 +27,6 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
         _controller.play();
       }
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    routeObserver.subscribe(this, ModalRoute.of(context)!); //Subscribe it here
-    super.didChangeDependencies();
-  }
-
-  /// Called when the current route has been popped off.
-  @override
-  void didPop() {
-    debugPrint("didPop");
-    super.didPop();
-  }
-
-  /// Called when the top route has been popped off, and the current route
-  /// shows up.
-  @override
-  void didPopNext() {
-    debugPrint("didPopNext");
-
-    super.didPopNext();
-  }
-
-  /// Called when the current route has been pushed.
-  @override
-  void didPush() {
-    debugPrint("didPush");
-    super.didPush();
-  }
-
-  /// Called when a new route has been pushed, and the current route is no
-  /// longer visible.
-  @override
-  void didPushNext() {
-    debugPrint("didPushNext");
-    _controller.pause();
-    super.didPushNext();
   }
 
   @override
@@ -85,7 +45,6 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
   @override
   void dispose() {
     _controller.dispose();
-
     super.dispose();
   }
 
@@ -103,7 +62,15 @@ class _StickyVideoState extends State<StickyVideo> with RouteAware {
                 child: AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
                   child: InkWell(
-                      onTap: playPause, child: VideoPlayer(_controller)),
+                      onTap: playPause,
+                      child: VisibilityDetector(
+                          onVisibilityChanged: (VisibilityInfo info) {
+                            if (info.visibleFraction == 0) {
+                              _controller.pause();
+                            }
+                          },
+                          key: Key(widget.url),
+                          child: VideoPlayer(_controller))),
                 ),
               ),
               Container(

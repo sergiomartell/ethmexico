@@ -6,6 +6,9 @@ import 'package:sticky/utils/utils.dart';
 import 'package:sticky/widgets/widgets.dart';
 import 'package:sticky/models/models.dart';
 import 'package:swipable_stack/swipable_stack.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.videos}) : super(key: key);
@@ -23,6 +26,60 @@ class _HomePageState extends State<HomePage> {
 
   void _listenController() => setState(() {});
 
+  var _session, _uri, _signature;
+  var connector = WalletConnect(
+      bridge: 'https://bridge.walletconnect.org',
+      clientMeta: const PeerMeta(
+          name: 'My App',
+          description: 'An app for testing metamask capabilities',
+          url: 'https://walletconnect.org',
+          icons: [
+            'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+          ]));
+
+  loginUsingMetamask(BuildContext context) async {
+    if (!connector.connected) {
+      try {
+        var session = await connector.createSession(onDisplayUri: (uri) async {
+          _uri = uri;
+          await launchUrlString(uri, mode: LaunchMode.externalApplication);
+        });
+
+        print(session.accounts[0]);
+        print(session.chainId);
+        setState(() {
+          _session = session;
+        });
+      } catch (exp) {
+        print(exp);
+      }
+    }
+  }
+
+  singMessageWithMetamask(BuildContext context, String message) async {
+    if (connector.connected) {
+      try {
+        print('Message recieved');
+        print(message);
+
+        EthereumWalletConnectProvider provider =
+            EthereumWalletConnectProvider(connector);
+        launchUrlString(_uri, mode: LaunchMode.externalApplication);
+
+        var signature = await provider.personalSign(
+            message: message, address: _session.accounts[0], password: '');
+
+        print(signature);
+        setState(() {
+          _signature = signature;
+        });
+      } catch (exp) {
+        print('Error while signing transaction');
+        print(exp);
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +96,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    connector.on(
+        'connect',
+        (session) => setState(() {
+              _session = _session;
+            }));
+    connector.on(
+        'session_update',
+        (payload) => setState(() {
+              _session = payload;
+              print(_session.accounts[0]);
+              print(_session.chainId);
+            }));
+    connector.on(
+        'disconnect',
+        (payload) => setState(() {
+              _session = null;
+            }));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -144,10 +218,11 @@ class _HomePageState extends State<HomePage> {
               'Connect Wallet',
               style: AppStyles.menu,
             ),
-            onTap: () {
+            onTap: () async {
               // Update the state of the app.
               // ...
-              Navigator.pop(context);
+
+              loginUsingMetamask(context);
             },
           ),
           ListTile(

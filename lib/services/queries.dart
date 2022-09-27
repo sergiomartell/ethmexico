@@ -341,7 +341,7 @@ class Queries {
       ''';
   }
 
-  String fetchDefaultProfile() {
+  String fetchProfile() {
     return r'''
       query($request: SingleProfileQueryRequest!) {
         profile(request: $request) {
@@ -423,6 +423,16 @@ class Queries {
                 type
               }
             }
+        }
+      }
+    ''';
+  }
+
+  String fetchDefaultProfile() {
+    return r'''
+      query defaultProfile($request: DefaultProfileRequest!) {
+        defaultProfile(request: $request) {
+          id
         }
       }
     ''';

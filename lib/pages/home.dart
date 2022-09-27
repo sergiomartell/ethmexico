@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sticky/models/lens_profile.dart';
 import 'package:sticky/pages/pages.dart';
+import 'package:sticky/services/queries.dart';
 import 'package:sticky/utils/utils.dart';
 import 'package:sticky/widgets/widgets.dart';
 import 'package:sticky/models/models.dart';
@@ -9,6 +11,7 @@ import 'package:swipable_stack/swipable_stack.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:graphql/client.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.videos}) : super(key: key);
@@ -23,6 +26,9 @@ class _HomePageState extends State<HomePage> {
   //* Methods and Functions
 
   late final SwipableStackController _controller;
+  final Queries _query = Queries();
+
+  final _link = HttpLink('https://api.lens.dev/');
 
   void _listenController() => setState(() {});
 
@@ -37,7 +43,7 @@ class _HomePageState extends State<HomePage> {
             'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
           ]));
 
-  loginUsingMetamask(BuildContext context) async {
+  loginUsingMetamask() async {
     if (!connector.connected) {
       try {
         var session = await connector.createSession(onDisplayUri: (uri) async {
@@ -200,7 +206,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _drawer() {
+  _drawer() {
     return Drawer(
       child: ListView(
         // Important: Remove any padding from the ListView.
@@ -222,7 +228,39 @@ class _HomePageState extends State<HomePage> {
               // Update the state of the app.
               // ...
 
-              loginUsingMetamask(context);
+              await loginUsingMetamask();
+              final GraphQLClient _client =
+                  GraphQLClient(link: _link, cache: GraphQLCache());
+              final QueryOptions _options = QueryOptions(
+                  document: gql(_query.fetchDefaultProfile()),
+                  variables: {
+                    'request': {'ethereumAddress': _session.accounts[0]}
+                  });
+
+              final QueryResult _result = await _client.query(_options);
+              if (_result.hasException) {
+                print(_result.exception.toString());
+              }
+
+              final profileId = (_result.data?['defaultProfile']['id']);
+              print(profileId);
+
+              final QueryOptions profileOptions = QueryOptions(
+                  document: gql(_query.fetchProfile()),
+                  variables: {
+                    'request': {'profileId': profileId}
+                  });
+
+              final QueryResult result = await _client.query(profileOptions);
+              if (result.hasException) {
+                print(_result.exception.toString());
+              }
+
+              final _profile = result.data?['profile'];
+              print(_profile);
+
+              LensProfile profile = LensProfile.fromJson(_profile);
+              print(profile.handle);
             },
           ),
           ListTile(

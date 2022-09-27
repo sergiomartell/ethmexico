@@ -1,49 +1,15 @@
 class LensProfile {
   LensProfile({
-    required this.data,
-  });
-  late final Data data;
-
-  LensProfile.fromJson(Map<String, dynamic> json) {
-    data = Data.fromJson(json['data']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['data'] = data.toJson();
-    return _data;
-  }
-}
-
-class Data {
-  Data({
-    required this.profile,
-  });
-  late final Profile profile;
-
-  Data.fromJson(Map<String, dynamic> json) {
-    profile = Profile.fromJson(json['profile']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['profile'] = profile.toJson();
-    return _data;
-  }
-}
-
-class Profile {
-  Profile({
     required this.id,
     required this.name,
     required this.bio,
-    required this.attributes,
-    required this.followNftAddress,
-    required this.metadata,
-    required this.isDefault,
-    required this.picture,
+    this.attributes,
+    this.followNftAddress,
+    this.metadata,
+    this.isDefault,
+    this.picture,
     required this.handle,
-    required this.coverPicture,
+    this.coverPicture,
     required this.ownedBy,
     this.dispatcher,
     required this.stats,
@@ -52,31 +18,34 @@ class Profile {
   late final String id;
   late final String name;
   late final String bio;
-  late final List<Attributes> attributes;
-  late final String followNftAddress;
-  late final String metadata;
-  late final bool isDefault;
-  late final Picture picture;
+  late final attributes;
+  late final followNftAddress;
+  late final metadata;
+  late final isDefault;
+  late final picture;
   late final String handle;
-  late final CoverPicture coverPicture;
+  late final coverPicture;
   late final String ownedBy;
   late final Null dispatcher;
   late final Stats stats;
   late final Null followModule;
 
-  Profile.fromJson(Map<String, dynamic> json) {
+  LensProfile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    bio = json['bio'];
+    name = json['name'] ?? '';
+    bio = json['bio'] ?? '';
     attributes = List.from(json['attributes'])
         .map((e) => Attributes.fromJson(e))
         .toList();
     followNftAddress = json['followNftAddress'];
     metadata = json['metadata'];
     isDefault = json['isDefault'];
-    picture = Picture.fromJson(json['picture']);
+    picture =
+        json['picture'] != null ? Picture.fromJson(json['picture']) : null;
     handle = json['handle'];
-    coverPicture = CoverPicture.fromJson(json['coverPicture']);
+    coverPicture = json['coverPicture'] != null
+        ? CoverPicture.fromJson(json['coverPicture'])
+        : null;
     ownedBy = json['ownedBy'];
     dispatcher = null;
     stats = Stats.fromJson(json['stats']);
@@ -134,12 +103,13 @@ class Attributes {
 
 class Picture {
   Picture({
-    required this.original,
+    this.original,
   });
-  late final Original original;
+  late final original;
 
   Picture.fromJson(Map<String, dynamic> json) {
-    original = Original.fromJson(json['original']);
+    original =
+        json['original'] != null ? Original.fromJson(json['original']) : null;
   }
 
   Map<String, dynamic> toJson() {

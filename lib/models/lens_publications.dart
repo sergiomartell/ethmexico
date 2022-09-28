@@ -350,7 +350,7 @@ class Metadata {
   Metadata.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     description = json['description'] ?? "";
-    content = json['content'];
+    content = json['content'] ?? "";
     media = List.from(json['media']).map((e) => Media.fromJson(e)).toList();
     attributes = List.from(json['attributes'])
         .map((e) => Attributes.fromJson(e))

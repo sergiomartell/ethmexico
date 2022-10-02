@@ -29,6 +29,8 @@ class _StickyVideoState extends State<StickyVideo> {
     });
   }
 
+  //* Code that runs once
+
   @override
   void initState() {
     _controller = VideoPlayerController.network(
@@ -41,6 +43,8 @@ class _StickyVideoState extends State<StickyVideo> {
     });
     super.initState();
   }
+
+  //* Cleaning up
 
   @override
   void dispose() {

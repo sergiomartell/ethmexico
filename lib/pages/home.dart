@@ -70,8 +70,8 @@ class _HomePageState extends State<HomePage> {
   Padding _buildSwiper(Orientation orientation) {
     return Padding(
       padding: orientation == Orientation.landscape
-          ? const EdgeInsets.all(10)
-          : const EdgeInsets.symmetric(horizontal: 5, vertical: 40),
+          ? const EdgeInsets.all(0)
+          : const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: SwipableStack(
         detectableSwipeDirections: const {
           SwipeDirection.right,

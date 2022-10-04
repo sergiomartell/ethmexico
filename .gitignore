@@ -34,8 +34,8 @@ migrate_working_dir/
 
 # Web related
 lib/generated_plugin_registrant.dart
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist
 
 # Symbolication related
 app.*.symbols

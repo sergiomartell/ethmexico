@@ -1,3 +1,4 @@
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sticky/models/models.dart';
 
 class Queries {
@@ -340,9 +341,108 @@ class Queries {
       }
       ''';
   }
+
+  String fetchProfile() {
+    return r'''
+      query($request: SingleProfileQueryRequest!) {
+        profile(request: $request) {
+            id
+            name
+            bio
+            attributes {
+              displayType
+              traitType
+              key
+              value
+            }
+            followNftAddress
+            metadata
+            isDefault
+            picture {
+              ... on NftImage {
+                contractAddress
+                tokenId
+                uri
+                verified
+              }
+              ... on MediaSet {
+                original {
+                  url
+                  mimeType
+                }
+              }
+              __typename
+            }
+            handle
+            coverPicture {
+              ... on NftImage {
+                contractAddress
+                tokenId
+                uri
+                verified
+              }
+              ... on MediaSet {
+                original {
+                  url
+                  mimeType
+                }
+              }
+              __typename
+            }
+            ownedBy
+            dispatcher {
+              address
+              canUseRelay
+            }
+            stats {
+              totalFollowers
+              totalFollowing
+              totalPosts
+              totalComments
+              totalMirrors
+              totalPublications
+              totalCollects
+            }
+            followModule {
+              ... on FeeFollowModuleSettings {
+                type
+                amount {
+                  asset {
+                    symbol
+                    name
+                    decimals
+                    address
+                  }
+                  value
+                }
+                recipient
+              }
+              ... on ProfileFollowModuleSettings {
+                type
+              }
+              ... on RevertFollowModuleSettings {
+                type
+              }
+            }
+        }
+      }
+    ''';
+  }
+
+  String fetchDefaultProfile() {
+    return r'''
+      query defaultProfile($request: DefaultProfileRequest!) {
+        defaultProfile(request: $request) {
+          id
+        }
+      }
+    ''';
+  }
 }
 
 class LensService {
+  final HttpLink _link = HttpLink('https://api.lens.dev/');
+  final Queries _query = Queries();
   List<LensPublications> videoPosts = [];
 
   List<LensPublications> filterVideos(List<LensPublications> pubs) {
@@ -356,5 +456,16 @@ class LensService {
       }
     }
     return filtered;
+  }
+
+  Future<dynamic> getLensProfile(String wallet) async {
+    final GraphQLClient client =
+        GraphQLClient(link: _link, cache: GraphQLCache());
+    final QueryOptions options =
+        QueryOptions(document: gql(_query.fetchDefaultProfile()), variables: {
+      'request': {'ethereumAddress': wallet}
+    });
+    final QueryResult result = await client.query(options);
+    if (result.hasException) {}
   }
 }

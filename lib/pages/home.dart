@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sticky/pages/pages.dart';
+import 'package:sticky/services/services.dart';
 import 'package:sticky/utils/utils.dart';
 import 'package:sticky/widgets/widgets.dart';
 import 'package:sticky/models/models.dart';
@@ -18,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //* Methods and Functions
-
+  final UserData user = UserData();
   late final SwipableStackController _controller;
 
   void _listenController() => setState(() {});
@@ -145,7 +146,7 @@ class _HomePageState extends State<HomePage> {
               style: AppStyles.menu,
             ),
             onTap: () {
-              // Update the state of the app.
+              user.loginViaMM();
               // ...
               Navigator.pop(context);
             },

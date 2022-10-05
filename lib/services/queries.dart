@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sticky/models/models.dart';
 
@@ -459,13 +460,39 @@ class LensService {
   }
 
   Future<dynamic> getLensProfile(String wallet) async {
-    final GraphQLClient client =
-        GraphQLClient(link: _link, cache: GraphQLCache());
-    final QueryOptions options =
-        QueryOptions(document: gql(_query.fetchDefaultProfile()), variables: {
-      'request': {'ethereumAddress': wallet}
-    });
-    final QueryResult result = await client.query(options);
-    if (result.hasException) {}
+    debugPrint(wallet);
+    try {
+      final GraphQLClient client =
+          GraphQLClient(link: _link, cache: GraphQLCache());
+      final QueryOptions options =
+          QueryOptions(document: gql(_query.fetchDefaultProfile()), variables: {
+        'request': {'ethereumAddress': wallet}
+      });
+      final QueryResult result = await client.query(options);
+      if (result.hasException) {
+        debugPrint("${result.exception}");
+      } else {
+        print(result.data);
+        final String profileId = result.data?["profile"];
+        if (result.data?["profile"] != null) {
+          final QueryOptions profileOptions =
+              QueryOptions(document: gql(_query.fetchProfile()), variables: {
+            'request': {'profileId': profileId}
+          });
+          final QueryResult res2 = await client.query(profileOptions);
+          if (res2.hasException) {
+            debugPrint("${res2.exception}");
+          } else {
+            debugPrint(res2.data.toString());
+            LensProfileData profileData = LensProfileData.fromJson(res2.data);
+            return profileData;
+          }
+        } else {
+          return null;
+        }
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 }

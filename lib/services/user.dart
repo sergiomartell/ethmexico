@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:sticky/models/lens_profile.dart';
+import 'package:sticky/services/services.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -6,6 +9,8 @@ import 'package:get/get.dart';
 class UserData extends GetxController {
   // ignore: prefer_typing_uninitialized_variables
   var _session;
+
+  LensService lens = LensService();
 
   final WalletConnect _connector = WalletConnect(
     bridge: 'https://bridge.walletconnect.org',
@@ -27,6 +32,9 @@ class UserData extends GetxController {
         _session = await _connector.createSession(onDisplayUri: (uri) async {
           await launchUrlString(uri, mode: LaunchMode.externalApplication);
         });
+        String address = _session.accounts[0];
+        LensProfileData data = await lens.getLensProfile(address);
+        debugPrint(data.data.profile.handle);
       } catch (e) {
         rethrow;
       }

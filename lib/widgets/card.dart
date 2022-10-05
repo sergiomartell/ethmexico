@@ -27,12 +27,12 @@ class StickyCard extends StatelessWidget {
 
 //* Widget Builds
 
-  ClipRRect _buildHorPlayer(ThemeData theme) {
+  Widget _buildHorPlayer(ThemeData theme) {
     return ClipRRect(
       child: Card(
         clipBehavior: Clip.antiAlias,
         color: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Stack(
           children: [
             StickyVideo(url: content.metadata.media[0].original.url),
@@ -85,7 +85,7 @@ class StickyCard extends StatelessWidget {
     );
   }
 
-  ClipRRect _buildPortraitPlayer(ThemeData theme) {
+  Widget _buildPortraitPlayer(ThemeData theme) {
     return ClipRRect(
       child: Card(
         clipBehavior: Clip.antiAlias,

@@ -1,11 +1,11 @@
-class LensProfile {
-  LensProfile({
+class LensProfileData {
+  LensProfileData({
     required this.data,
   });
   late final LensData data;
 
-  LensProfile.fromJson(Map<String, dynamic> json) {
-    data = LensData.fromJson(json['data']);
+  LensProfileData.fromJson(Map<String, dynamic>? json) {
+    data = LensData.fromJson(json?['data']);
   }
 }
 
@@ -13,10 +13,10 @@ class LensData {
   LensData({
     required this.profile,
   });
-  late final Profile profile;
+  late final ProfileData profile;
 
   LensData.fromJson(Map<String, dynamic> json) {
-    profile = Profile.fromJson(json['profile']);
+    profile = ProfileData.fromJson(json['profile']);
   }
 
   Map<String, dynamic> toJson() {
@@ -26,8 +26,8 @@ class LensData {
   }
 }
 
-class Profile {
-  Profile({
+class ProfileData {
+  ProfileData({
     required this.id,
     required this.name,
     required this.bio,
@@ -44,33 +44,33 @@ class Profile {
   late final String id;
   late final String name;
   late final String bio;
-  late final List<Attributes> attributes;
+  late final List<ProfileAttributes> attributes;
   late final String followNftAddress;
   late final String metadata;
   late final bool isDefault;
-  late final Picture picture;
+  late final ProfilePicture picture;
   late final String handle;
-  late final CoverPicture coverPicture;
+  late final ProfileCoverPicture coverPicture;
   late final String ownedBy;
 
-  late final Stats stats;
+  late final ProfileStats stats;
 
-  Profile.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    bio = json['bio'];
-    attributes = List.from(json['attributes'])
-        .map((e) => Attributes.fromJson(e))
-        .toList();
-    followNftAddress = json['followNftAddress'];
-    metadata = json['metadata'];
-    isDefault = json['isDefault'];
-    picture = Picture.fromJson(json['picture']);
-    handle = json['handle'];
-    coverPicture = CoverPicture.fromJson(json['coverPicture']);
-    ownedBy = json['ownedBy'];
+  ProfileData.fromJson(Map<String, dynamic> json) {
+    id = json['id'] ?? "";
+    name = json['name'] ?? "";
+    bio = json['bio'] ?? "";
+    /*  attributes = List.from(json['attributes'])
+        .map((e) => ProfileAttributes.fromJson(e))
+        .toList(); */
+    followNftAddress = json['followNftAddress'] ?? "";
+    metadata = json['metadata'] ?? "";
+    isDefault = json['isDefault'] ?? true;
+    //picture = ProfilePicture.fromJson(json['picture']);
+    handle = json['handle'] ?? "";
+    //coverPicture = ProfileCoverPicture.fromJson(json['coverPicture']);
+    ownedBy = json['ownedBy'] ?? "";
 
-    stats = Stats.fromJson(json['stats']);
+    //stats = ProfileStats.fromJson(json['stats']);
   }
 
   Map<String, dynamic> toJson() {
@@ -93,8 +93,8 @@ class Profile {
   }
 }
 
-class Attributes {
-  Attributes({
+class ProfileAttributes {
+  ProfileAttributes({
     required this.traitType,
     required this.key,
     required this.value,
@@ -104,7 +104,7 @@ class Attributes {
   late final String key;
   late final String value;
 
-  Attributes.fromJson(Map<String, dynamic> json) {
+  ProfileAttributes.fromJson(Map<String, dynamic> json) {
     traitType = json['traitType'];
     key = json['key'];
     value = json['value'];
@@ -120,14 +120,14 @@ class Attributes {
   }
 }
 
-class Picture {
-  Picture({
+class ProfilePicture {
+  ProfilePicture({
     required this.original,
   });
-  late final Original original;
+  late final ProfileOriginal original;
 
-  Picture.fromJson(Map<String, dynamic> json) {
-    original = Original.fromJson(json['original']);
+  ProfilePicture.fromJson(Map<String, dynamic> json) {
+    original = ProfileOriginal.fromJson(json['original']);
   }
 
   Map<String, dynamic> toJson() {
@@ -138,13 +138,13 @@ class Picture {
   }
 }
 
-class Original {
-  Original({
+class ProfileOriginal {
+  ProfileOriginal({
     required this.url,
   });
   late final String url;
 
-  Original.fromJson(Map<String, dynamic> json) {
+  ProfileOriginal.fromJson(Map<String, dynamic> json) {
     url = json['url'];
   }
 
@@ -156,14 +156,14 @@ class Original {
   }
 }
 
-class CoverPicture {
-  CoverPicture({
+class ProfileCoverPicture {
+  ProfileCoverPicture({
     required this.original,
   });
-  late final Original original;
+  late final ProfileOriginal original;
 
-  CoverPicture.fromJson(Map<String, dynamic> json) {
-    original = Original.fromJson(json['original']);
+  ProfileCoverPicture.fromJson(Map<String, dynamic> json) {
+    original = ProfileOriginal.fromJson(json['original']);
   }
 
   Map<String, dynamic> toJson() {
@@ -174,8 +174,8 @@ class CoverPicture {
   }
 }
 
-class Stats {
-  Stats({
+class ProfileStats {
+  ProfileStats({
     required this.totalFollowers,
     required this.totalFollowing,
     required this.totalPosts,
@@ -192,7 +192,7 @@ class Stats {
   late final int totalPublications;
   late final int totalCollects;
 
-  Stats.fromJson(Map<String, dynamic> json) {
+  ProfileStats.fromJson(Map<String, dynamic> json) {
     totalFollowers = json['totalFollowers'];
     totalFollowing = json['totalFollowing'];
     totalPosts = json['totalPosts'];

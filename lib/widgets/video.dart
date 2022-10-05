@@ -55,7 +55,6 @@ class _StickyVideoState extends State<StickyVideo> {
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
-    //debugPrint("${_controller.value.aspectRatio}");
     return FutureBuilder(
       future: _initializeVideoPlayerFuture,
       builder: (context, snapshot) {

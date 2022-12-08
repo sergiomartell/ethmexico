@@ -44,7 +44,7 @@ icons_launcher:
       # adaptive_background_color: '#ffffff'
       adaptive_background_image: 'icons/background.png'
       adaptive_foreground_image: 'icons/foreground.png'
-      adaptive_round_image: 'icons/round.png'
+      
   
 
 flutter:

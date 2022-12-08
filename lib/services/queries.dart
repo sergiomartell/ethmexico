@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sticky/models/models.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 class Queries {
   String fetchPublications() {
@@ -472,7 +472,6 @@ class LensService {
       if (result.hasException) {
         debugPrint("${result.exception}");
       } else {
-        print(result.data);
         final String profileId = result.data?["profile"];
         if (result.data?["profile"] != null) {
           final QueryOptions profileOptions =

@@ -30,7 +30,7 @@ class _QueryWrapState extends State<QueryWrap> {
               document: gql(_query.fetchPublications()),
               variables: const {
                 'request': {
-                  'sortCriteria': 'TOP_COMMENTED',
+                  'sortCriteria': 'TOP_COLLECTED',
                   'publicationTypes': ['POST'],
                   'limit': 50,
                   'metadata': {
@@ -52,7 +52,7 @@ class _QueryWrapState extends State<QueryWrap> {
 
             final publicationsList =
                 result.data?['explorePublications']['items'];
-
+            print(publicationsList);
             //List<LensPublications> videoPubs = [];
             List<LensPublications> lensPubs = List.filled(
                 publicationsList.length,
